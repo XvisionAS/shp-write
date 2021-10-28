@@ -112,7 +112,7 @@ module.exports.write = function writePolyRecord(
 };
 
 module.exports.shpLength = function (geometries, TYPE) {
-    var no = 0;
+    var contentLength = 0;
 
     var is3D =
         TYPE === types.geometries.POLYLINEZ ||
@@ -120,19 +120,21 @@ module.exports.shpLength = function (geometries, TYPE) {
 
     // loop through every feature
     geometries.forEach(function (feature, i) {
-        // this is looking at each record
-        var noParts = feature.length;
-        var flattened = justCoords(feature);
-        var length = 44 + 4 * noParts + 16 * flattened.length + 8; // 2D length
-
+        var flattened = justCoords(coordinates),
+        noParts =
+            TYPE === types.geometries.POLYLINE ||
+            TYPE === types.geometries.POLYLINEZ
+                ? parts([coordinates], TYPE)
+                : parts(coordinates, TYPE) // Number of parts in this poly record
+        contentLength += flattened.length * 16 + 48 + (noParts - 1) * 4;
         if (is3D) {
-            length += 16 + 8 * flattened.length + (16 + 8 * flattened.length);
+            contentLength += 32 + flattened.length * 16;
         }
 
-        no += length;
+        contentLength += length;
     });
 
-    return no;
+    return contentLength;
 };
 
 module.exports.shxLength = function (geometries) {
