@@ -127,11 +127,10 @@ module.exports.shpLength = function (geometries, TYPE) {
                 ? parts([coordinates], TYPE)
                 : parts(coordinates, TYPE) // Number of parts in this poly record
         contentLength += flattened.length * 16 + 48 + (noParts - 1) * 4;
+
         if (is3D) {
             contentLength += 32 + flattened.length * 16;
         }
-
-        contentLength += length;
     });
 
     return contentLength;
