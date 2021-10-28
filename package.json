@@ -38,7 +38,7 @@
     "url": "https://github.com/Esri/shp-write/issues"
   },
   "dependencies": {
-    "dbf": "0.1.4",
+    "dbf": "github:XvisionAS/dbf",
     "jszip": "^3.2.2"
   },
   "devDependencies": {
