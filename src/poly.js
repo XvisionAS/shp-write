@@ -126,7 +126,7 @@ module.exports.shpLength = function (geometries, TYPE) {
             TYPE === types.geometries.POLYLINEZ
                 ? parts([feature], TYPE)
                 : parts(feature, TYPE) // Number of parts in this poly record
-        contentLength += flattened.length * 16 + 48 + (noParts - 1) * 4;
+        contentLength += flattened.length * 16 + 56 + (noParts - 1) * 4;
 
         if (is3D) {
             contentLength += 32 + flattened.length * 16;
