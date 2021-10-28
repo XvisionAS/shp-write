@@ -120,12 +120,12 @@ module.exports.shpLength = function (geometries, TYPE) {
 
     // loop through every feature
     geometries.forEach(function (feature, i) {
-        var flattened = justCoords(coordinates),
+        var flattened = justCoords(feature),
         noParts =
             TYPE === types.geometries.POLYLINE ||
             TYPE === types.geometries.POLYLINEZ
-                ? parts([coordinates], TYPE)
-                : parts(coordinates, TYPE) // Number of parts in this poly record
+                ? parts([feature], TYPE)
+                : parts(feature, TYPE) // Number of parts in this poly record
         contentLength += flattened.length * 16 + 48 + (noParts - 1) * 4;
 
         if (is3D) {
