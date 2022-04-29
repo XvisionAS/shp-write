@@ -153,14 +153,15 @@ function parts(geometries, TYPE) {
 module.exports.parts = parts;
 
 
-function* chunks(arr, n) {
-  for (let i = 0; i < arr.length; i += n) {
-    yield arr.slice(i, i + n);
+function justCoords(coords, ret = []) {
+  for (const coord of coords) {
+    if (Array.isArray(coord[0])) {
+      justCoords(coord, ret)
+    } else {
+      ret.push(coord)
+    }
   }
-}
-
-function justCoords(coords) {
-    return [...chunks(coords.flat(Infinity), 3)]
+  return ret
 }
 
 module.exports.justCoords = justCoords;
