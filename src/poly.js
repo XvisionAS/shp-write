@@ -152,24 +152,15 @@ function parts(geometries, TYPE) {
 
 module.exports.parts = parts;
 
-function totalPoints(geometries) {
-    var sum = 0;
-    geometries.forEach(function (g) {
-        sum += g.length;
-    });
-    return sum;
+
+function* chunks(arr, n) {
+  for (let i = 0; i < arr.length; i += n) {
+    yield arr.slice(i, i + n);
+  }
 }
 
-function justCoords(coords, l) {
-    if (l === undefined) l = [];
-    if (typeof coords[0][0] == 'object') {
-        return coords.reduce(function (memo, c) {
-            Array.prototype.push.apply(memo, justCoords(c));
-            return memo;
-        }, l);
-    } else {
-        return coords;
-    }
+function justCoords(coords) {
+    return [...chunks(coords.flat(Infinity), 3)]
 }
 
 module.exports.justCoords = justCoords;
